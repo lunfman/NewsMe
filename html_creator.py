@@ -79,7 +79,3 @@ class CreateHtml:
         elif key == 'a':
             text += f'<a href={value} >Visit Article Page</a>'
         return text
-
-new = CreateHtml()
-html_list = new.create_html_mail_from_list(h1=['test1','test2'], p=['test p 1', 'test p 2'], b=['bold 1', 'bold 2'])
-print(html_list)

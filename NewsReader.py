@@ -26,37 +26,39 @@ plain_text = ''
 html_content_string = ''
 
 # running a for loop to get data from message
-for news in range(len(message)):
-    header = message[news][0]
+for number in range(len(message)):
+    header = message[number][0]
     #html_header.append(creator.create_simple_html(h1=header))
     # checking if message list of dict longer than 0 if not pass
-    if len(message[news][1]) > 0:
+    if len(message[number][1]) > 0:
         # if message longer than 0 going to add values to the html_content
-        # using create_simple_html with h1 = header to create header this will return a list
+        # using create_simple_html with h1 = header to create header list after creation
         html_content.append(creator.create_simple_html(h1=header))
         # adding header to plain text
         plain_text += f'{header}\n'
-        # current list = message[x][1] can be added before if statement
-        cur_list = message[x][1]
+        # current list = message[number][1] -> selecting list of articles
+        cur_list = message[number][1]
 
-        for x in cur_list:
-            #print(x['title'])
+        for article in cur_list:
+            #print(article['title'])
             # getting values from dict ['title] and etc is from api usage  ----> check api
-            title = x['title']
-            text = x['content']
-            url = x['url']
+            title = article['title']
+            text = article['content']
+            url = article['url']
             html_content.append(creator.create_simple_html(b=title, p=text, a=url))
             plain_text += f'{title}\n{text}\n{url}\n'
 
 # creating html content string
+# create_simple_html returns list
 for line in html_content:
     for value in line:
-        #print(value)
+        print(value)
         html_content_string += f'{value}\n'
 
-print(html_content_string)
 # sending news
+# init ShareNews class
 send = ShareNews(mail_to= os.environ['MY_MAIL'])
+# opening template
 template = send.open_mail_template()
 
 send.send_html_mail(template, html_content_string, plain_text)

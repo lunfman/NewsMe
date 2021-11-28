@@ -52,6 +52,10 @@ class ShareNews:
         return html
 
     def send_html_mail(self, html_template, html_content, message_text):
+        # send_html_mail takes three arguments
+        # html_template witch should have [CONTENT] tag in the body
+        # html_content -> the content witch is going to replace [CONTENT] tag
+        # and message_text if mail client can not render html message
         message_html = html_template
         message_html = message_html.replace('[CONTENT]', html_content)
 
@@ -63,7 +67,7 @@ class ShareNews:
         # The email client will try to render the last part first
         self.message.attach(part1)
         self.message.attach(part2)
-
+        # connecting to the mail client to send an email
         with smtplib.SMTP_SSL(self.SMTP_SERVER, self.PORT) as server:
             server.login(self.MY_MAIL, self.MAIL_PASSWORD)
             server.sendmail(self.MY_MAIL, self.TO_MAIL, self.message.as_string())
