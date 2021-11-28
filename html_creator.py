@@ -67,6 +67,8 @@ class CreateHtml:
 
     @staticmethod
     def key_checker(key, value):
+        # key_checker function takes two arguments one is the key -> h1,b,i -> html tag
+        # second is value for the key
         text = ''
         if key == 'h1':
             text += f'<h1>{value}</h1>'

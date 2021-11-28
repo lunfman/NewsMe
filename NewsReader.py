@@ -1,6 +1,6 @@
 from html_creator import CreateHtml
 from get_news import GetNews
-#from mail import ShareNews
+from mail import ShareNews
 import os
 
 path = os.path.dirname(os.path.realpath(__file__))
