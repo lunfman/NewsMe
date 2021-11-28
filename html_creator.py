@@ -56,17 +56,12 @@ class CreateHtml:
 
         sorted_list = []
         for num in range(len_checker):
-            block = []
             print(num)
             for key in order_keys:
                 print(key)
                 key_index = order_keys.index(key)
                 current_value = order_list[key_index][key][num]
-                block.append(CreateHtml.key_checker(key, current_value))
-            sorted_list.append(block)
-
-
-
+                sorted_list.append(CreateHtml.key_checker(key, current_value))
 
         return sorted_list
 
