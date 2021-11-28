@@ -4,7 +4,7 @@ from mail import ShareNews
 import os
 
 path = os.path.dirname(os.path.realpath(__file__))
-# List of Interested topics for news search from topics.txt
+# List of topics for news search from topics.txt
 file_path = f"{path}/topics.txt"
 with open(file=file_path) as file:
     topics = [topic.strip() for topic in file.readlines()]
@@ -18,11 +18,11 @@ for topic in topics:
     message.append(news.get_news(topic, get='list'))
 # creating create html class
 creator = CreateHtml()
-# instances for future work html_content going to store converted strings returned as a list each
+# html_content is going to store converted strings returned as a list each
 html_content = []
-# plain text will contain plain text for mail sending in case mail client do not support
+# plain text will contain plain text for mail sending in case mail client do not support html messages
 plain_text = ''
-# html content string is going to content plain html text from html content
+# html content string is going to store plain html text from html content
 html_content_string = ''
 
 # running a for loop to get data from message

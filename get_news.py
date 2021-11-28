@@ -27,7 +27,7 @@ class GetNews:
     """
     One main argument key_word accepts string of interested topic
     Optionals:
-    - language en or rus or etc possible
+    - language en, rus or etc possible
     - date = from witch date by default today
     - article_number how many articles we want to get by default 5
     - search_type - check api ref above
