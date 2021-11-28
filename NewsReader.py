@@ -1,6 +1,6 @@
 from html_creator import CreateHtml
 from get_news import GetNews
-from mail import ShareNews
+#from mail import ShareNews
 import os
 
 path = os.path.dirname(os.path.realpath(__file__))
@@ -11,6 +11,7 @@ with open(file=file_path) as file:
 
 # Creating news class to get news from api
 news = GetNews()
+print(news.API_KEY)
 message = []
 
 # running for loop to get topic from topic list and run news class and append to the list

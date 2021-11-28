@@ -15,7 +15,6 @@ popularity = articles from popular sources and publishers come first.
 publishedAt = newest articles come first.
 """
 
-
 class GetNews:
     def __init__(self, api_key=os.environ['API_KEY'], url='https://newsapi.org/v2/everything'):
 
@@ -49,6 +48,9 @@ class GetNews:
 
         response = requests.get(self.API_URL, params=parameters)
         data = response.json()
+
+        if data['status'] != 'ok':
+            raise Exception ('Your API Key invalid')
 
         # Checking for any news. If we received 0 news or data < articles number we are going to say that article number
         # = to results this will allow to escape key or index errors in the future
