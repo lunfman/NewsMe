@@ -60,5 +60,5 @@ for line in html_content:
 send = ShareNews(mail_to= os.environ['MY_MAIL'])
 # opening template
 template = send.open_mail_template()
-
+# sending html mail
 send.send_html_mail(template, html_content_string, plain_text)
