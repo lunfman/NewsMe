@@ -1,7 +1,4 @@
 import math
-# If using list to create multiple values with one header list must be equal or create every time as a separate object
-# If two first list equal and the last not it will return good value DDDDDD
-
 
 class CreateHtml:
 
@@ -41,35 +38,37 @@ class CreateHtml:
         order_list = []
         order_keys = []
         # Checking for list class of instances
+        len_checker = 0
         for keys, values in kwargs.items():
             if isinstance(values, list):
-                order_list.append({keys: values})
-                order_keys.append(keys)
+                if len_checker == 0:
+                    len_checker = len(values)
+                    order_list.append({keys: values})
+                    order_keys.append(keys)
+                else:
+                    if len(values) != len_checker:
+                        raise Exception('Lists length has to be equal')
+                    else:
+                        order_list.append({keys: values})
+                        order_keys.append(keys)
             else:
                 raise Exception('All values have to be a list !')
 
-        html_converted_values = []
-        # Creating html converted values
-        for key in range(len(order_keys)):
-            print(key)
-            key_ = order_keys[key]
-            current_list = order_list[key][order_keys[key]]
-            for value in current_list:
-                html_converted_values.append(CreateHtml.key_checker(key_, value))
+        sorted_list = []
+        for num in range(len_checker):
+            block = []
+            print(num)
+            for key in order_keys:
+                print(key)
+                key_index = order_keys.index(key)
+                current_value = order_list[key_index][key][num]
+                block.append(CreateHtml.key_checker(key, current_value))
+            sorted_list.append(block)
 
-        # Sorting values of list by checking how many keys we have and values
-        sort_list = []
-        # In Case of not equal list going to round up
-        if len(order_keys) == 0:
-            step = 1
-        else:
-            step = math.ceil((len(html_converted_values) / len(order_keys)))
-        start = 0
-        for starting_number in range(step):
-            for order in range(start, len(html_converted_values), step):
-                sort_list.append(html_converted_values[order])
-            start += 1
-        return sort_list
+
+
+
+        return sorted_list
 
     @staticmethod
     def key_checker(key, value):
@@ -85,3 +84,7 @@ class CreateHtml:
         elif key == 'a':
             text += f'<a href={value} >Visit Article Page</a>'
         return text
+
+new = CreateHtml()
+html_list = new.create_html_mail_from_list(h1=['test1','test2'], p=['test p 1', 'test p 2'], b=['bold 1', 'bold 2'])
+print(html_list)

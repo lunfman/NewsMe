@@ -13,9 +13,9 @@ with open(file=file_path) as file:
 news = GetNews()
 message = []
 
-# running for loop to get topic from topic list and run news class and append to the list
+# running for loop to get topic from topics list and run news class to get latest news and append to the message
 for topic in topics:
-    print(news.get_news(topic))
+    message.append(news.get_news(topic, get='list'))
 # creating create html class
 creator = CreateHtml()
 # instances for future work html_content going to store converted strings returned as a list each
@@ -25,15 +25,13 @@ plain_text = ''
 # html content string is going to content plain html text from html content
 html_content_string = ''
 
-# running a for loop to get all list from message
-# PLEASE RENAME X
-for x in range(len(message)):
-    header = message[x][0]
+# running a for loop to get data from message
+for news in range(len(message)):
+    header = message[news][0]
     #html_header.append(creator.create_simple_html(h1=header))
     # checking if message list of dict longer than 0 if not pass
-    if len(message[x][1]) > 0:
-        #print(header)
-        # if message longer than 0 going to add values to the html_content list
+    if len(message[news][1]) > 0:
+        # if message longer than 0 going to add values to the html_content
         # using create_simple_html with h1 = header to create header this will return a list
         html_content.append(creator.create_simple_html(h1=header))
         # adding header to plain text
