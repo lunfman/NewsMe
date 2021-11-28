@@ -2,7 +2,6 @@ import requests
 import datetime
 import os
 TODAY = datetime.datetime.today().date()
-#print(os.environ.get['NEWS_API_KEY'])
 # API Ref
 """
 qInTitle - Keywords or phrases to search for in the article title only.
@@ -57,9 +56,21 @@ class GetNews:
         if data['totalResults'] == 0 or data['totalResults'] < articles_number:
             articles_number = data['totalResults']
             print(f'Results for {key_word.strip()}:{articles_number}')
+
+        # checking for optional params
+        for key, value in kwargs.items():
+            if key == 'get':
+                if value == 'list':
+                    # if user want to get list after exe
+                    news_articles = []
+                    for number in range(articles_number):
+                        articles = data['articles'][number]
+                        news_articles.append(articles)
+                    news_list = [key_word, news_articles]
+                    return news_list
+        # if user did not used optional params function return string of news
         # instances for return
         news = ''
-        news_articles = []
 
         # looping through api data and extracting news
         for number in range(articles_number):
@@ -69,15 +80,6 @@ class GetNews:
             article_content = articles['content']
             article_url = articles['url']
             news += f"{article_source}\n{article_title}\n{article_content}\n{article_url}\n\n"
-            news_articles.append(articles)
 
-        # checking for optional params useless param !!!!!
-        for key, value in kwargs.items():
-            if key == 'get':
-                print('in get section')
-                if value == 'list':
-                    print('going to return list')
-                    news_list = [key_word, news_articles]
-                    return news_list
         return news
 

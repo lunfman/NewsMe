@@ -11,13 +11,11 @@ with open(file=file_path) as file:
 
 # Creating news class to get news from api
 news = GetNews()
-print(news.API_KEY)
 message = []
 
 # running for loop to get topic from topic list and run news class and append to the list
 for topic in topics:
-    message.append(news.get_news(topic, get='list'))
-
+    print(news.get_news(topic))
 # creating create html class
 creator = CreateHtml()
 # instances for future work html_content going to store converted strings returned as a list each
