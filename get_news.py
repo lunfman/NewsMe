@@ -2,7 +2,7 @@ try:
     import requests
 except ModuleNotFoundError:
     # for vscode
-    import pip._vendor.requests
+    import pip._vendor.requests as requests
 
 import datetime
 import os
@@ -20,10 +20,13 @@ publishedAt = newest articles come first.
 """
 
 class GetNews:
-    def __init__(self, api_key=os.environ['API_KEY'], url='https://newsapi.org/v2/everything'):
-
+    def __init__(self, api_key, url='https://newsapi.org/v2/everything'):
+        print(api_key)
         self.API_KEY = api_key
         self.API_URL = url
+        # stores found news after running get news method
+        # news data stores in the next format -> {key_word:[]}
+        self.found_news = []
 
     """
     def get_news returns the string of news by default
@@ -44,7 +47,7 @@ class GetNews:
 
         parameters = {
             search_type: key_word,
-            'from': f'{date}',
+            'from': date,
             'sortBy': sort,
             'language': language,
             'apiKey': self.API_KEY,
@@ -52,7 +55,7 @@ class GetNews:
 
         response = requests.get(self.API_URL, params=parameters)
         data = response.json()
-
+        print(data)
         if data['status'] != 'ok':
             raise Exception ('Your API Key invalid')
 
@@ -72,7 +75,7 @@ class GetNews:
                         articles = data['articles'][number]
                         news_articles.append(articles)
                     news_list = [key_word, news_articles]
-                    return news_list
+                    return self.found_news.append(news_list)
         # if user did not used optional params function return string of news
         # instances for return
         news = ''
@@ -85,6 +88,5 @@ class GetNews:
             article_content = articles['content']
             article_url = articles['url']
             news += f"{article_source}\n{article_title}\n{article_content}\n{article_url}\n\n"
-
-        return news
-
+        # saveing to found_news as string
+        return self.found_news.append({key_word:news})
