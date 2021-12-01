@@ -1,7 +1,4 @@
 # NewsApp
-<<<<<<< HEAD
-=======
-
 NewsApp allows users to create a list of interesting topics and get emails with the latest news in readable format.
 Features:
 * you can create own template by using html creator module
@@ -13,4 +10,3 @@ Features:
 ## Instalation
 git clone repo
 ## Modules
->>>>>>> 77365d91347ca6f20ae9a4a0b3843788b977f5f9
