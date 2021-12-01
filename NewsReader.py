@@ -1,7 +1,7 @@
 from datetime import date
 from html_creator import CreateHtml
 from get_news import GetNews
-#from mail import ShareNews
+from mail import ShareNews
 import os
 # relative path to dir
 path = os.path.dirname(os.path.realpath(__file__))
@@ -12,29 +12,29 @@ with open(file=file_path) as file:
 
 # Creating news class to get news from api
 # api_key is needed (NewsApi)
-news = GetNews(api_key='')
+news = GetNews(api_key='Your Api key')
 
-# running for loop to get topic from topics list and run news class to get latest news and append to the message
+# running for loop to get topic from topics list and run news class to get latest news
+# i am using get list to work with api data directly after exe
+# if to use get_news without get it will return string with extracted news
 for topic in topics:
-    news.get_news(topic, articles_number=2 ,date='2021-11-01', get='list')
+    news.get_news(topic, get='list')
+
 # creating create html class
 creator = CreateHtml()
-# html_content is going to store converted strings returned as a list each
-# html_content = []
-# plain text will contain plain text for mail sending in case mail client do not support html messages
+# stores plain text if mail do not support html....
 plain_text = ''
-# html content string is going to store plain html text from html content
-# html_content_string = ''
 
-# running a for loop to get data from news.found_news
+# running a for loop to extract data from news.found_news
+# news.found_news stores all news which was collected duiring get_news method
 found_news = news.found_news
 for number in range(len(found_news)):
+    # header is the first element ['header', [articles]]
     header = found_news[number][0]
-    #html_header.append(creator.create_simple_html(h1=header))
     # checking if message list of dict longer than 0 if not pass
     if len(found_news[number][1]) > 0:
         # if message longer than 0 going to add values to the html_content
-        # using create_simple_html with h1 = header to create header list after creation
+        # using create_simple_html with h1 = header to create header
         creator.create_simple_html(h1=header)
         # adding header to plain text
         plain_text += f'{header}\n'
@@ -42,12 +42,11 @@ for number in range(len(found_news)):
         cur_list = found_news[number][1]
 
         for article in cur_list:
-            #print(article['title'])
             # getting values from dict ['title] and etc is from api usage  ----> check api
             title = article['title']
             text = article['content']
             url = article['url']
-            # creating html
+            # creating single html block
             creator.create_simple_html(b=title, p=text, a=url)
             # add to plain text
             plain_text += f'{title}\n{text}\n{url}\n'
@@ -57,8 +56,8 @@ creator.create_html().use_template().replace_templates_content()
 
 # sending news
 # init ShareNews class
-#send = ShareNews(mail_to= os.environ['MY_MAIL'])
-# opening template
-#template = send.open_mail_template()
+# provide the next information: mail, mail_to, mail - password, smtp_server, port - default 465, subject
+send = ShareNews(mail= 'sender mail', password= 'senders pass', mail_to= 'receiver',
+ smtp_server='providers smtp server', subject='subject name')
 # sending html mail
-#send.send_html_mail(template, html_content_string, plain_text)
+send.send_html_mail(creator.template, plain_text)

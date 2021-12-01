@@ -23,7 +23,7 @@ class CreateHtml:
     1. Example
     CreateHtml.create_simple_htm(h1 = 'title', p='Text)
     return -----> [<h1>title</h1>,<p>Text</p>]
-    The lis of converted values will be returned
+    The list of converted values will be returned 
 
     method create_html_mail_from_list
     - accepts **kwargs like h1 = , p = ,a = , b =, i =, and etc
@@ -33,7 +33,7 @@ class CreateHtml:
 
     1. Example
     CreateHtml.create_html_mail_from_list(h1 = [Header1, Header2], p = [Text1, Text2], b = [B1, B2]
-    return --> a list [Header1,Text1,B1,Header2,Text2,B2] all values converted to html as well
+    return --> a list [[Header1,Text1,B1],[Header2,Text2,B2]] all values converted to html as well
     """
 
     def create_simple_html(self,**kwargs):
@@ -130,7 +130,7 @@ class CreateHtml:
         return self
 
     def replace_templates_content(self):
-        # use this method after create_html
+        # NB! Use this method after create_html
         # method replaces templates content with created_html
         self.template = self.template.replace('[CONTENT]', self.html)
         return self

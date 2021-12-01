@@ -28,7 +28,7 @@ class ShareNews:
     -html_content - a string of html content
     -message text - plain text for sending without html tags
     """
-    def __init__(self, mail= os.environ['MAIL'], mail_to= os.environ['MAIL'], password= os.environ['PASSWORD'],
+    def __init__(self, mail= 'mail.com', mail_to= 'mail.com', password= 'password',
                  smtp_server='smtp.yandex.ru', port='465', subject='News'):
         # Connection Instances
         self.MY_MAIL = mail
@@ -51,7 +51,7 @@ class ShareNews:
     #         html = html_template.read()
     #     return html
 
-    def send_html_mail(self, html_template, html_content, message_text):
+    def send_html_mail(self, html_content, message_text):
         # send_html_mail takes three arguments
         # html_template witch should have [CONTENT] tag in the body
         # html_content -> the content witch is going to replace [CONTENT] tag
