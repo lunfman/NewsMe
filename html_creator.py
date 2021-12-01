@@ -4,9 +4,13 @@ import os
 class CreateHtml:
 
     def __init__ (self, path):
+        # html is going to store extracted html
         self.html = ''
+        # path for the template
         self.template_path = os.path.dirname(os.path.realpath(__file__))
+        # store template after read
         self.template = ''
+        # stores html blocks
         self.html_list = []
 
 
@@ -33,25 +37,29 @@ class CreateHtml:
 
     def create_simple_html(self,**kwargs):
         # this function can create a simple html block by providing html tags and values
-        # after completing function saves result to self.html_list
+        # after completing function saves result to self.html_list as a new list
         array = []
         for key, value in kwargs.items():
             if isinstance(value, str):
                 # adding html element to an empty array
+                # CreateHtml.key_checker creates html elements from key and value
                 array.append(CreateHtml.key_checker(key, value))
             # else:
             #     raise Exception('Values have to be a strings')
         
-        # checking i array is empty
+        # checking if an array is empty
         if len(array) == 0:
             return
         # return -> save empty array to html_list
         return self.html_list.append(array)
 
     def create_html_mail_from_list(self, **kwargs):
+        #TODO this functions looks complex do refactor after!
         # this function can create multiple blocks of html
         # h1 = ['heading 1', 'heading 2'] p = ['par 1', 'par 2']
-        # the lists length has to be equal
+        # the lists length has to be equal or the function will not return a proper result
+
+        # why do we need order_list and order_keys?
         order_list = []
         order_keys = []
         
@@ -64,28 +72,44 @@ class CreateHtml:
                 # this allow to get len of the first list and compare with next lists
                 # if not equal raise error cause this function will not retrun the right result
                 if len_checker == 0:
+                    # if it was first run len_checker = len of the list
                     len_checker = len(values)
+                    # save values
                     order_list.append({keys: values})
                     order_keys.append(keys)
                 else:
                     if len(values) != len_checker:
                         raise Exception('Lists length has to be equal')
+                    # if lists have the same length continue 
                     else:
+                        # save values to order list
                         order_list.append({keys: values})
+                        # save keys to order_keys
                         order_keys.append(keys)
             # else:
             #     raise Exception('All values have to be a list !')
 
+        # for loop in range of len_checker why?
+        # this information helps to understand have many tags was provided
+        # len_checker -> how many blocks program needs to create?
         for num in range(len_checker):
-            print(num)
-            # saveing html block to the array
+            #print(num)
+            # saveing html block to the array why?
+            # self.html_list stores blocks as a list so every  block is a list with html elements
             array = []
+            # running a loop to get a key order and add new html elements to the array
             for key in order_keys:
                 print(key)
+                # getting index of the key why?
+                # the order list looks this way -> [{h1:[]},{p:[]},{b:[]}]
+                # key_list -> [h1,p,b]
+                # to get the first headding we need to get dict {h1:[]}, 
+                # after use a key, and the num to get value
                 key_index = order_keys.index(key)
                 current_value = order_list[key_index][key][num]
+                # adding html element to the array
                 array.append(CreateHtml.key_checker(key, current_value))
-
+            # saveing html block to the html_list
             self.html_list.append(array)
 
     @staticmethod
