@@ -1,6 +1,14 @@
 import math
+import os
 
 class CreateHtml:
+
+    def __init__ (self, path):
+        self.html = ''
+        self.template_path = os.path.dirname(os.path.realpath(__file__))
+        self.template = ''
+        self.html_list = []
+
 
     """
     method create_simple_html
@@ -23,24 +31,38 @@ class CreateHtml:
     return --> a list [Header1,Text1,B1,Header2,Text2,B2] all values converted to html as well
     """
 
-    @staticmethod
-    def create_simple_html(**kwargs):
-        html_list = []
+    def create_simple_html(self,**kwargs):
+        # this function can create a simple html block by providing html tags and values
+        # after completing function saves result to self.html_list
+        array = []
         for key, value in kwargs.items():
             if isinstance(value, str):
-                html_list.append(CreateHtml.key_checker(key, value))
-            else:
-                raise Exception('Values have to be a strings')
-        return html_list
+                # adding html element to an empty array
+                array.append(CreateHtml.key_checker(key, value))
+            # else:
+            #     raise Exception('Values have to be a strings')
+        
+        # checking i array is empty
+        if len(array) == 0:
+            return
+        # return -> save empty array to html_list
+        return self.html_list.append(array)
 
-    @staticmethod
-    def create_html_mail_from_list(**kwargs):
+    def create_html_mail_from_list(self, **kwargs):
+        # this function can create multiple blocks of html
+        # h1 = ['heading 1', 'heading 2'] p = ['par 1', 'par 2']
+        # the lists length has to be equal
         order_list = []
         order_keys = []
-        # Checking for list class of instances
+        
         len_checker = 0
+        # running a for loop to get keys, create order list and get the len of the arrays
         for keys, values in kwargs.items():
+            # Checking for list class of instances
             if isinstance(values, list):
+                # if len_checker = 0 it meas we are checking for the first list
+                # this allow to get len of the first list and compare with next lists
+                # if not equal raise error cause this function will not retrun the right result
                 if len_checker == 0:
                     len_checker = len(values)
                     order_list.append({keys: values})
@@ -51,19 +73,20 @@ class CreateHtml:
                     else:
                         order_list.append({keys: values})
                         order_keys.append(keys)
-            else:
-                raise Exception('All values have to be a list !')
+            # else:
+            #     raise Exception('All values have to be a list !')
 
-        sorted_list = []
         for num in range(len_checker):
             print(num)
+            # saveing html block to the array
+            array = []
             for key in order_keys:
                 print(key)
                 key_index = order_keys.index(key)
                 current_value = order_list[key_index][key][num]
-                sorted_list.append(CreateHtml.key_checker(key, current_value))
+                array.append(CreateHtml.key_checker(key, current_value))
 
-        return sorted_list
+            self.html_list.append(array)
 
     @staticmethod
     def key_checker(key, value):
@@ -72,12 +95,17 @@ class CreateHtml:
         text = ''
         if key == 'h1':
             text += f'<h1>{value}</h1>'
+            return text
         elif key == 'b':
             text += f'<b>{value}</b>'
+            return text            
         elif key == 'p':
             text += f'<p>{value}</p>'
+            return text            
         elif key == 'i':
             text += f'<i>{value}</i>'
+            return text            
         elif key == 'a':
             text += f'<a href={value} >Visit Article Page</a>'
-        return text
+            return text
+        return text            

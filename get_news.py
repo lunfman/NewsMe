@@ -55,7 +55,6 @@ class GetNews:
 
         response = requests.get(self.API_URL, params=parameters)
         data = response.json()
-        print(data)
         if data['status'] != 'ok':
             raise Exception ('Your API Key invalid')
 
