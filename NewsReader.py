@@ -1,4 +1,3 @@
-from datetime import date
 from html_creator import CreateHtml
 from get_news import GetNews
 from mail import ShareNews

@@ -1,6 +1,4 @@
-import math
 import os
-from re import template
 
 class CreateHtml:
 
