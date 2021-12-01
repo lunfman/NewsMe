@@ -3,7 +3,7 @@ import os
 
 class CreateHtml:
 
-    def __init__ (self, path):
+    def __init__ (self):
         # html is going to store extracted html
         self.html = ''
         # path for the template
@@ -60,6 +60,8 @@ class CreateHtml:
         # the lists length has to be equal or the function will not return a proper result
 
         # why do we need order_list and order_keys?
+        # order_keys stores all keys needed to create blocks
+        # order_list stores key:[values]
         order_list = []
         order_keys = []
         
@@ -99,7 +101,7 @@ class CreateHtml:
             array = []
             # running a loop to get a key order and add new html elements to the array
             for key in order_keys:
-                print(key)
+                #print(key)
                 # getting index of the key why?
                 # the order list looks this way -> [{h1:[]},{p:[]},{b:[]}]
                 # key_list -> [h1,p,b]
@@ -111,6 +113,11 @@ class CreateHtml:
                 array.append(CreateHtml.key_checker(key, current_value))
             # saveing html block to the html_list
             self.html_list.append(array)
+
+    def create_html(self):
+        for line in self.html_list:
+            for value in line:
+                self.html += f'{value}\n'
 
     @staticmethod
     def key_checker(key, value):
