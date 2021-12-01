@@ -3,7 +3,7 @@ from html_creator import CreateHtml
 from get_news import GetNews
 #from mail import ShareNews
 import os
-
+# relative path to dir
 path = os.path.dirname(os.path.realpath(__file__))
 # List of topics for news search from topics.txt
 file_path = f"{path}/topics.txt"
@@ -11,7 +11,8 @@ with open(file=file_path) as file:
     topics = [topic.strip() for topic in file.readlines()]
 
 # Creating news class to get news from api
-news = GetNews()
+# api_key is needed (NewsApi)
+news = GetNews(api_key='')
 
 # running for loop to get topic from topics list and run news class to get latest news and append to the message
 for topic in topics:
@@ -25,7 +26,7 @@ plain_text = ''
 # html content string is going to store plain html text from html content
 # html_content_string = ''
 
-# running a for loop to get data from message
+# running a for loop to get data from news.found_news
 found_news = news.found_news
 for number in range(len(found_news)):
     header = found_news[number][0]
@@ -46,17 +47,13 @@ for number in range(len(found_news)):
             title = article['title']
             text = article['content']
             url = article['url']
+            # creating html
             creator.create_simple_html(b=title, p=text, a=url)
+            # add to plain text
             plain_text += f'{title}\n{text}\n{url}\n'
 
-creator.create_html()
-print(creator.html)
-# creating html content string
-# create_simple_html returns list
-# for line in html_content:
-#     for value in line:
-#         print(value)
-#         html_content_string += f'{value}\n'
+# creating html, opening template, replaceing the content
+creator.create_html().use_template().replace_templates_content()
 
 # sending news
 # init ShareNews class

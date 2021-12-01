@@ -1,13 +1,14 @@
 import math
 import os
+from re import template
 
 class CreateHtml:
 
-    def __init__ (self):
+    def __init__ (self, path = f'{os.path.dirname(os.path.realpath(__file__))}/template.html'):
         # html is going to store extracted html
         self.html = ''
         # path for the template
-        self.template_path = os.path.dirname(os.path.realpath(__file__))
+        self.template_path = path
         # store template after read
         self.template = ''
         # stores html blocks
@@ -113,11 +114,26 @@ class CreateHtml:
                 array.append(CreateHtml.key_checker(key, current_value))
             # saveing html block to the html_list
             self.html_list.append(array)
+        return
 
     def create_html(self):
+        # this functions creates html from self.html_list blocks
         for line in self.html_list:
             for value in line:
                 self.html += f'{value}\n'
+        return self
+
+    def use_template(self):
+        with open(self.template_path) as html_template:
+            template_content = html_template.read()
+        self.template = template_content
+        return self
+
+    def replace_templates_content(self):
+        # use this method after create_html
+        # method replaces templates content with created_html
+        self.template = self.template.replace('[CONTENT]', self.html)
+        return self
 
     @staticmethod
     def key_checker(key, value):

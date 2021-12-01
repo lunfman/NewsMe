@@ -43,24 +43,24 @@ class ShareNews:
         self.message["From"] = self.MY_MAIL
         self.message["To"] = self.TO_MAIL
     # put insdie of the function
-    template_path = os.path.dirname(os.path.realpath(__file__))
+    #template_path = os.path.dirname(os.path.realpath(__file__))
 
-    @staticmethod
-    def open_mail_template(path=f'{template_path}/template.html'):
-        with open(path) as html_template:
-            html = html_template.read()
-        return html
+    # @staticmethod
+    # def open_mail_template(path=f'{template_path}/template.html'):
+    #     with open(path) as html_template:
+    #         html = html_template.read()
+    #     return html
 
     def send_html_mail(self, html_template, html_content, message_text):
         # send_html_mail takes three arguments
         # html_template witch should have [CONTENT] tag in the body
         # html_content -> the content witch is going to replace [CONTENT] tag
         # and message_text if mail client can not render html message
-        message_html = html_template.replace('[CONTENT]', html_content)
+        #message_html = html_template.replace('[CONTENT]', html_content)
 
         # Turn these into plain/html MIMEText objects
         part1 = MIMEText(message_text, "plain")
-        part2 = MIMEText(message_html, "html")
+        part2 = MIMEText(html_content, "html")
 
         # Add HTML/plain-text parts to MIMEMultipart message
         # The email client will try to render the last part first
