@@ -1,4 +1,9 @@
-import requests
+try:
+    import requests
+except ModuleNotFoundError:
+    # for vscode
+    import pip._vendor.requests
+
 import datetime
 import os
 TODAY = datetime.datetime.today().date()
