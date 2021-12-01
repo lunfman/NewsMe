@@ -116,12 +116,14 @@ class CreateHtml:
 
     def create_html(self):
         # this functions creates html from self.html_list blocks
+        # extracts everythin and adds to self.html as string
         for line in self.html_list:
             for value in line:
                 self.html += f'{value}\n'
         return self
 
     def use_template(self):
+        # opening template
         with open(self.template_path) as html_template:
             template_content = html_template.read()
         self.template = template_content

@@ -5,7 +5,6 @@ except ModuleNotFoundError:
     import pip._vendor.requests as requests
 
 import datetime
-import os
 TODAY = datetime.datetime.today().date()
 # API Ref
 """
@@ -21,11 +20,11 @@ publishedAt = newest articles come first.
 
 class GetNews:
     def __init__(self, api_key, url='https://newsapi.org/v2/everything'):
-        print(api_key)
         self.API_KEY = api_key
         self.API_URL = url
         # stores found news after running get news method
-        # news data stores in the next format -> {key_word:[]}
+        # news data stores in the next format -> {key_word:[{}]} if used get=list
+        # without method next format -> [{key_word:extracted_news_string}]
         self.found_news = []
 
     """
