@@ -5,7 +5,6 @@ except ModuleNotFoundError:
     import pip._vendor.requests as requests
 
 import datetime
-TODAY = datetime.datetime.today().date()
 # API Ref
 """
 qInTitle - Keywords or phrases to search for in the article title only.
@@ -19,18 +18,32 @@ publishedAt = newest articles come first.
 """
 
 class GetNews:
-    def __init__(self, api_key, url='https://newsapi.org/v2/everything'):
-        self.API_KEY = api_key
-        self.API_URL = url
-        # stores found news after running get news method
-        # news data stores in the next format -> {key_word:[{}]} if used get=list
-        # without method next format -> [{key_word:extracted_news_string}]
-        self.found_news = []
 
-    """
-    def get_news returns the string of news by default
-    * also possible return list by adding parameter get = 'list'
-    """
+    def __init__(self, api_key):
+        # api key and endpoints
+        self.API_KEY = api_key
+        self.everything_endpoint = 'https://newsapi.org/v2/everything'
+        self.top_headlines_endpoint = 'https://newsapi.org/v2/top-headlines'
+
+        # dates
+        self.today = datetime.datetime.today().date()   
+        # date = today
+        self.date = self.today
+
+        # default parameters
+        self.def_params = {
+            'qInTitle': '',
+            'from': self.date,
+            'sortBy': 'popularity',
+            'language': 'en',
+            'apiKey': self.API_KEY,
+        }
+        # number of articles by deafault
+
+        self.articles_num = 5
+        # stores api response in json format
+        self.api_data = ''
+
     """
     One main argument key_word accepts string of interested topic
     Optionals:
@@ -41,50 +54,45 @@ class GetNews:
     - sort - check api ref above
     """
 
-    def get_news(self, key_word, language='en', date=TODAY, articles_number=5,
-                 search_type="qInTitle", sort='popularity', **kwargs):
 
-        parameters = {
-            search_type: key_word,
-            'from': date,
-            'sortBy': sort,
-            'language': language,
-            'apiKey': self.API_KEY,
-        }
-
-        response = requests.get(self.API_URL, params=parameters)
-        data = response.json()
-        if data['status'] != 'ok':
-            raise Exception ('Your API Key invalid')
-
-        # Checking for any news. If we received 0 news or data < articles number we are going to say that article number
-        # = to results this will allow to escape key or index errors in the future
-        if data['totalResults'] == 0 or data['totalResults'] < articles_number:
-            articles_number = data['totalResults']
-            print(f'Results for {key_word.strip()}:{articles_number}')
-
-        # checking for optional params
+    def create_params(self, **kwargs):
+        # overwrite existing parameters
+        self.def_params = {}
         for key, value in kwargs.items():
-            if key == 'get':
-                if value == 'list':
-                    # if user want to get list after exe
-                    news_articles = []
-                    for number in range(articles_number):
-                        articles = data['articles'][number]
-                        news_articles.append(articles)
-                    news_list = [key_word, news_articles]
-                    return self.found_news.append(news_list)
-        # if user did not used optional params function return string of news
-        # instances for return
-        news = ''
+            pass
+        pass
+   
 
+    def get_everything(self, keyword):
+        self.def_params['qInTitle'] = keyword
+
+        response = requests.get(self.everything_endpoint, params=self.def_params)
+        self.api_data = response.json()
+        
+        if self.api_data['status'] != 'ok':
+            raise Exception ('Your API Key invalid')
+        # if all good extract articles array from api data for forward use
+        self.articles = self.api_data['articles'][:self.articles_num]
+        
+        return self
+
+    def get_list(self):
+        # return a list with articles from articles
+        return [article for article in self.articles]
+
+
+    def show_news(self):
+        # this method just prints the news in formated way
+        news = ''
         # looping through api data and extracting news
-        for number in range(articles_number):
-            articles = data['articles'][number]
-            article_source = articles['source']['name']
-            article_title = articles['title']
-            article_content = articles['content']
-            article_url = articles['url']
+        # articles = api_data[articles]and slice this list by articles num
+        
+        for article in self.articles:
+            article_source = article['source']['name']
+            article_title = article['title']
+            article_content = article['content']
+            article_url = article['url']
             news += f"{article_source}\n{article_title}\n{article_content}\n{article_url}\n\n"
-        # saveing to found_news as string
-        return self.found_news.append({key_word:news})
+        
+        print(news)
+        return self
