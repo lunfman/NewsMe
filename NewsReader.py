@@ -11,8 +11,11 @@ import os
 
 # Creating news class to get news from api
 # api_key is needed (NewsApi)
-news = GetNews(api_key='Api key')
-news.get_everything('apple').show_news()
+#news = GetNews(api_key='')
+#news.create_params(lang = 'test')
+#news.show_news()
+#news.get_everything('apple').show_news()
+
 # running for loop to get topic from topics list and run news class to get latest news
 # i am using get list to work with api data directly after exe
 # if to use get_news without get it will return string with extracted news

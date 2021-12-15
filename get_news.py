@@ -24,64 +24,72 @@ class GetNews:
         self.API_KEY = api_key
         self.everything_endpoint = 'https://newsapi.org/v2/everything'
         self.top_headlines_endpoint = 'https://newsapi.org/v2/top-headlines'
-
+        
+        # default endpont 
+        self.endpoint = self.everything_endpoint
+        
         # dates
         self.today = datetime.datetime.today().date()   
-        # date = today
+        # date by default is today
         self.date = self.today
 
+        # search type by default
+        self.search_type = 'qInTitle'
         # default parameters
-        self.def_params = {
-            'qInTitle': '',
+        # two options for changeing it first by changeing it manually -> class.paramas = {params}
+        # !!!do not forget api key ... if you use this option!!!
+        # or by using create_params method
+        self.params = {
+            self.search_type: '',
             'from': self.date,
             'sortBy': 'popularity',
             'language': 'en',
             'apiKey': self.API_KEY,
         }
+        
         # number of articles by deafault
-
         self.articles_num = 5
+        
         # stores api response in json format
         self.api_data = ''
-
-    """
-    One main argument key_word accepts string of interested topic
-    Optionals:
-    - language en, rus or etc possible
-    - date = from witch date by default today
-    - article_number how many articles we want to get by default 5
-    - search_type - check api ref above
-    - sort - check api ref above
-    """
+        # store extracted articles after successfull search
+        self.articles = []
 
 
-    def create_params(self, **kwargs):
+    def new_params(self, **kwargs):
         # overwrite existing parameters
-        self.def_params = {}
+        self.params = {}
+        
         for key, value in kwargs.items():
-            pass
-        pass
+            self.params[key] = value
+        
+        self.params['apiKey'] = self.API_KEY
+        
+        return self
    
 
-    def get_everything(self, keyword):
-        self.def_params['qInTitle'] = keyword
+    def search(self, keyword):
+        self.params[self.search_type] = keyword
 
-        response = requests.get(self.everything_endpoint, params=self.def_params)
-        self.api_data = response.json()
+        self.response = requests.get(self.endpoint, params=self.params)
+        self.api_data = self.response.json()
         
         if self.api_data['status'] != 'ok':
-            raise Exception ('Your API Key invalid')
+           self.response_errors()
+
         # if all good extract articles array from api data for forward use
         self.articles = self.api_data['articles'][:self.articles_num]
         
         return self
 
+
     def get_list(self):
         # return a list with articles from articles
+        # use after get_everything method
         return [article for article in self.articles]
 
 
-    def show_news(self):
+    def show(self):
         # this method just prints the news in formated way
         news = ''
         # looping through api data and extracting news
@@ -92,7 +100,12 @@ class GetNews:
             article_title = article['title']
             article_content = article['content']
             article_url = article['url']
-            news += f"{article_source}\n{article_title}\n{article_content}\n{article_url}\n\n"
-        
+            news += f"{article_source}\n{article_title}\n{article_content}\n{article_url}\n\n" 
         print(news)
         return self
+    
+    
+    def response_errors(self):
+        code = self.api_data['code']
+        mesage =  self.api_data['message']
+        raise Exception (code, mesage)       
