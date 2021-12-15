@@ -12,9 +12,7 @@ import os
 # Creating news class to get news from api
 # api_key is needed (NewsApi)
 #news = GetNews(api_key='')
-#news.create_params(lang = 'test')
-#news.show_news()
-#news.get_everything('apple').show_news()
+#news.get_everything('apple').get_list()
 
 # running for loop to get topic from topics list and run news class to get latest news
 # i am using get list to work with api data directly after exe
@@ -59,7 +57,7 @@ import os
 # sending news
 # init ShareNews class
 # provide the next information: mail, mail_to, mail - password, smtp_server, port - default 465, subject
-# send = ShareNews(mail= 'sender mail', password= 'senders pass', mail_to= 'receiver',
-#  smtp_server='providers smtp server', subject='subject name')
+#send = ShareNews(, password= 'senders pass', mail_to= 'receiver',
+   # mtp_server='providers smtp server', subject='subject name')
 # sending html mail
-#send.send_html_mail(creator.template, plain_text)
+#send.send_html_mail('test', plain_text)

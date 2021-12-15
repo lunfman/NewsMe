@@ -33,11 +33,10 @@ class GetNews:
         # date by default is today
         self.date = self.today
 
-        # search type by default
+        # search type by default keyword in title
         self.search_type = 'qInTitle'
         # default parameters
         # two options for changeing it first by changeing it manually -> class.paramas = {params}
-        # !!!do not forget api key ... if you use this option!!!
         # or by using create_params method
         self.params = {
             self.search_type: '',
@@ -62,13 +61,15 @@ class GetNews:
         
         for key, value in kwargs.items():
             self.params[key] = value
-        
+
+        # add api key after new params was created
         self.params['apiKey'] = self.API_KEY
         
         return self
    
 
     def search(self, keyword):
+        # add keyword to params
         self.params[self.search_type] = keyword
 
         self.response = requests.get(self.endpoint, params=self.params)
