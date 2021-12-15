@@ -62,6 +62,4 @@ class ShareNews:
             server.login(self.mail, self.password)
             # send
             server.sendmail(self.mail, self.destination, self.content.as_string())
-        
-        return
     
