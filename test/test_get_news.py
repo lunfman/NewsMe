@@ -1,5 +1,5 @@
 import unittest
-#from unittest.mock import Mock
+from unittest.mock import Mock
 import json
 from get_news import GetNews
 import os
@@ -32,6 +32,7 @@ class TestGetNewsClass(unittest.TestCase):
         self.assertEqual(self.news.new_params(language='a', date = 'b').params,
             {'language':'a', 'date':'b', 'apiKey': 'api key'})
 
+    
     def test_search(self):
         pass
 
