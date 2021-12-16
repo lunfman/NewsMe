@@ -27,7 +27,6 @@ class CreateHtml:
     def simple(self,**kwargs):
         # this method can create a simple html block by providing html tags and values
         # after completing function saves result to self.html_list as a new list / block
-        self.block = []
         for key, value in kwargs.items():
             # creating element from key and value
             element = f'<{key}>{value}</{key}>'
@@ -50,8 +49,8 @@ class CreateHtml:
 
 
     def get(self):
-        # get -> open template / replace content with html / return html
-        #self.to_string()
+        # get -> open template / 
+        # replace content with html / return modifed template
         self.read_template()
         self.replace_content()
-        return self.html
+        return self.template
