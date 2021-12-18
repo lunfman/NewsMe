@@ -27,4 +27,4 @@ for topic in topics:
 sender.html = create_html.html
 sender.text = ''
 
-sender.send()
+#sender.send()
