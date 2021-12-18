@@ -74,7 +74,6 @@ class GetNews:
 
         self.response = requests.get(self.endpoint, params=self.params)
         self.api_data = self.response.json()
-        
         if self.api_data['status'] != 'ok':
            self.response_errors()
 

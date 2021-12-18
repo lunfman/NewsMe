@@ -44,6 +44,7 @@ class CreateHtml:
 
     def replace_content(self):
         # method replace templates content with created_html
+        # what if [content] not in the file ?!
         self.template = self.template.replace('[CONTENT]', self.html)
         return self
 
