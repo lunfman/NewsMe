@@ -17,7 +17,7 @@ popularity = articles from popular sources and publishers come first.
 publishedAt = newest articles come first.
 """
 
-class GetNews:
+class News:
 
     def __init__(self, api_key):
         # api key and endpoints
@@ -55,8 +55,8 @@ class GetNews:
         self.articles = []
 
 
-    def new_params(self, **kwargs):
-        # overwrite existing parameters
+    def create_params(self, **kwargs):
+        # overwrite existing parameters!
         self.params = {}
         
         for key, value in kwargs.items():
@@ -75,7 +75,7 @@ class GetNews:
         self.response = requests.get(self.endpoint, params=self.params)
         self.api_data = self.response.json()
         if self.api_data['status'] != 'ok':
-           self.response_errors()
+           self.extract_errors()
 
         # if all good extract articles array from api data for forward use
         self.articles = self.api_data['articles'][:self.articles_num]
@@ -83,9 +83,7 @@ class GetNews:
         return self
 
 
-    def get_list(self):
-        # return a list with articles from articles
-        # use after get_everything method
+    def get_articles_list(self):
         return [article for article in self.articles]
 
 
@@ -105,7 +103,7 @@ class GetNews:
         return self
     
     
-    def response_errors(self):
+    def extract_errors(self):
         code = self.api_data['code']
         mesage =  self.api_data['message']
         raise Exception (code, mesage)       

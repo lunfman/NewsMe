@@ -3,7 +3,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 
-class ShareNews:
+class Mail:
     """
     ShareNews class by default need the next instances:
         -mail = senders_mail
@@ -35,7 +35,7 @@ class ShareNews:
         self.text = ''
 
 
-    def message(self):
+    def create_message(self):
         # create message from mimemultipart obj
         # Mail / Message Instances
         self.content = MIMEMultipart("alternative")
@@ -55,11 +55,15 @@ class ShareNews:
 
     def send(self):
         # creating message
-        self.message()
+        self.create_message()
         # connecting to the mail client to send an email
         with smtplib.SMTP_SSL(self.smtp_server, self.port) as server:
             # login
             server.login(self.mail, self.password)
             # send
             server.sendmail(self.mail, self.destination, self.content.as_string())
+
+
+    def send_to_many():
+        pass
     

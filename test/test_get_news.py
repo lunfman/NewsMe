@@ -1,9 +1,7 @@
-from typing import NewType
 import unittest
-from unittest import mock
 from unittest.mock import patch
 import json
-from get_news import GetNews
+from newsme.news import News
 import os
 
 path = f'{os.path.dirname(os.path.realpath(__file__))}/data.json'
@@ -16,7 +14,7 @@ news_api_error = {"status":"error","code":"apiKeyMissing","message":"Your API ke
 class TestGetNewsClass(unittest.TestCase):
     
     def setUp(self):
-        self.news = GetNews('api key')
+        self.news = News('api key')
         self.news.api_data = data
         
 
@@ -26,22 +24,22 @@ class TestGetNewsClass(unittest.TestCase):
         # and creating articles! normally created inside of news.search method
         self.news.articles_num = 2
         self.news.articles = self.news.api_data['articles'][:self.news.articles_num]
-        self.assertLessEqual(len(self.news.get_list()), 2)
+        self.assertLessEqual(len(self.news.get_articles_list()), 2)
 
         self.news.articles_num = 1
         self.news.articles = self.news.api_data['articles'][:self.news.articles_num]
-        self.assertLessEqual(len(self.news.get_list()), 1)
+        self.assertLessEqual(len(self.news.get_articles_list()), 1)
 
     def test_new_params(self):
-        self.assertEqual(self.news.new_params(language='a', date = 'b').params,
+        self.assertEqual(self.news.create_params(language='a', date = 'b').params,
             {'language':'a', 'date':'b', 'apiKey': 'api key'})
 
         # what to do if user adds q/qintitle with keyword???!!
         # right now using search_type! think about it!
-        self.assertEqual(self.news.new_params(q='a', date = 'b').params,
+        self.assertEqual(self.news.create_params(q='a', date = 'b').params,
             {'q':'a', 'date':'b', 'apiKey': 'api key'})
 
-    @patch('get_news.requests.get')
+    @patch('newsme.news.requests.get')
     def test_search(self, mock_get):
 
         # get 1 article in articles
@@ -67,11 +65,11 @@ class TestGetNewsClass(unittest.TestCase):
         # get 3 articles will not work!!! because slice inside of search method
         self.news.articles_num = 3
         # the list equal to 3 based on data
-        self.assertEqual(len(self.news.get_list()), 1)
+        self.assertEqual(len(self.news.get_articles_list()), 1)
         # new search with articles_num  = 3 and now it should
         # be = to 3!!
         self.news.search('tesla')
-        self.assertEqual(len(self.news.get_list()), 3)
+        self.assertEqual(len(self.news.get_articles_list()), 3)
 
 
 if __name__ == '__main__':

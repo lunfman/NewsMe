@@ -24,7 +24,7 @@ class CreateHtml:
     
     """
 
-    def simple(self,**kwargs):
+    def create_html_tags(self,**kwargs):
         # this method can create a simple html block by providing html tags and values
         # after completing function saves result to self.html_list as a new list / block
         for key, value in kwargs.items():
@@ -42,16 +42,19 @@ class CreateHtml:
         self.template = template_content
         return self
 
-    def replace_content(self):
+    def replace_templates_content(self):
         # method replace templates content with created_html
         # what if [content] not in the file ?!
         self.template = self.template.replace('[CONTENT]', self.html)
         return self
 
 
-    def get(self):
+    def modify_template(self):
         # get -> open template / 
         # replace content with html / return modifed template
         self.read_template()
         self.replace_content()
         return self.template
+
+    def create_template_file():
+        pass

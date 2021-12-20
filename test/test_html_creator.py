@@ -1,6 +1,6 @@
-from re import S
+from re import I, S
 import unittest
-from html_creator import CreateHtml
+from newsme.html_creator import CreateHtml
 import os
 
 class TestCreateHtmlClass(unittest.TestCase):
@@ -8,17 +8,17 @@ class TestCreateHtmlClass(unittest.TestCase):
     def setUp(self):
         self.html_creator = CreateHtml()
 
-    def test_simple_method(self):
+    def test_create_html_tags_test(self):
         # test 1 creating tags
-        self.assertEqual(self.html_creator.simple(h1='test1', b = 'test1', p = 'test1').html,
+        self.assertEqual(self.html_creator.create_html_tags(h1='test1', b = 'test1', p = 'test1').html,
             '<h1>test1</h1><b>test1</b><p>test1</p>')
         
         self.html_creator.html = ''
         # test 2 creating wired tags
-        self.assertEqual(self.html_creator.simple(test='test').html,
+        self.assertEqual(self.html_creator.create_html_tags(test='test').html,
             '<test>test</test>')
         # test 3 creating one more -> should be added to the last
-        self.assertEqual(self.html_creator.simple(p='test').html,
+        self.assertEqual(self.html_creator.create_html_tags(p='test').html,
             '<test>test</test><p>test</p>')
         
 
@@ -36,7 +36,7 @@ class TestCreateHtmlClass(unittest.TestCase):
         self.test_temp = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body></body></html>'
         # nothing should change because [CONTENT] not in file   
         self.html_creator.template = self.test_temp
-        self.html_creator.replace_content()
+        self.html_creator.replace_templates_content()
         self.assertEqual(self.test_temp, self.test_temp)
         
 
@@ -44,7 +44,7 @@ class TestCreateHtmlClass(unittest.TestCase):
         self.html_creator.template = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body>[CONTENT]</body></html>'
         self.html_creator.html = '<h1>test1</h1><b>test1</b><p>test1</p>'
         expected = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body><h1>test1</h1><b>test1</b><p>test1</p></body></html>'
-        self.html_creator.replace_content()
+        self.html_creator.replace_templates_content()
         self.assertEqual(self.html_creator.template, expected)
 
 if __name__ == '__main__':
