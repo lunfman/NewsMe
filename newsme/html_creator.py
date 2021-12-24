@@ -53,7 +53,7 @@ class CreateHtml:
         # get -> open template / 
         # replace content with html / return modifed template
         self.read_template()
-        self.replace_content()
+        self.replace_templates_content()
         return self.template
 
     def create_template_file():

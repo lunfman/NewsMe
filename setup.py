@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="newsme",
-    version="0.0.1",
+    version="0.0.2",
     author="lunfman",
     author_email="",
     description="package for simple interaction with NewsApi and sending html mails",

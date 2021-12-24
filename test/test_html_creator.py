@@ -43,9 +43,16 @@ class TestCreateHtmlClass(unittest.TestCase):
         # test 2 [CONTENT] exists
         self.html_creator.template = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body>[CONTENT]</body></html>'
         self.html_creator.html = '<h1>test1</h1><b>test1</b><p>test1</p>'
-        expected = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body><h1>test1</h1><b>test1</b><p>test1</p></body></html>'
+        result = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body><h1>test1</h1><b>test1</b><p>test1</p></body></html>'
         self.html_creator.replace_templates_content()
-        self.assertEqual(self.html_creator.template, expected)
+        self.assertEqual(self.html_creator.template, result)
+
+
+    def test_modify_template_method(self):
+        self.html_creator.template = ''
+        self.html_creator.html = '<h1>test1</h1><b>test1</b><p>test1</p>'
+        result = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body><h1>test1</h1><b>test1</b><p>test1</p></body></html>'
+        self.assertEqual(self.html_creator.modify_template().replace("\n", "").replace('    ',''), result)
 
 if __name__ == '__main__':
     unittest.main()
