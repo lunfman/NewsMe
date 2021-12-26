@@ -25,7 +25,7 @@ pip install newsme
 ### News class
 News object provides simple interaction with NewsApI.
 ```
-from news import News
+from newsme import News
 news = News('API_KEY')
 ```
 
@@ -63,7 +63,7 @@ Method takes one argument -> keyword (what are you searching for?)
 
 Search method interact with the api and save results to api_data and create articles list after execution
 ```
-from news import News
+from newsme import News
 news = News('API_KEY')
 news.search('github')
 
@@ -114,7 +114,7 @@ news.create_params('date'=date, 'param2':param2)
 ### CreateHtml class
 Use this class to create an html.
 ```
-from html_creator import CreateHtml
+from newsme import CreateHtml
 create_html = CreateHtml()
 ```
 
@@ -204,7 +204,7 @@ port = '465'
 subject = 'News'
 
 ```
-from mail import Mail
+from newsme import Mail
 send = Mail(
         mail='mail which is going to connect to smtp server',
         password = 'password for this mail',
@@ -228,9 +228,7 @@ Examples demonstrate how to use all pieces together to create an app by using th
 ### Example 1
 Get information from NewsApi and send html mail to your destination.
 ```
-from html_creator import CreateHtml
-from news import News
-from mail import Mail
+from newsme import CreateHtml, News, Mail
 
 topics = ['github', 'microsoft']
 
@@ -262,7 +260,7 @@ sender.send()
 ### Example 2
 Print news to the console
 ```
-from news import News
+from newsme import News
 
 # topics for search
 topics = ['github', 'microsoft']
@@ -281,7 +279,7 @@ for topic in topics:
 ### Example 3
 Use different endpoints and params
 ```
-from news import News
+from newsme import News
 
 news = GetNews('apikey')
 # using top headlines endpoint
@@ -296,8 +294,7 @@ news.search('').show()
 ### Example 4
 Create html mail and send it
 ```
-from html_creator import CreateHtml
-from mail import Mail
+from newsme import CreateHtml, Mail
 
 sender = Mail(
     mail='mail',
